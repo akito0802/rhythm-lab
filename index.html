@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111318">
+  <meta name="description" content="目で見て、聴いて、触って学べるリズム学習ビートマシン">
+  <title>Rhythm Lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">VISUAL RHYTHM LEARNING</p>
+        <h1>Rhythm Lab</h1>
+      </div>
+      <button id="helpButton" class="icon-button" type="button" aria-label="使い方を表示">?</button>
+    </header>
+
+    <main>
+      <section class="transport panel" aria-label="再生コントロール">
+        <div class="transport-main">
+          <button id="playButton" class="play-button" type="button" aria-label="再生">
+            <span class="play-icon" aria-hidden="true">▶</span>
+            <span class="stop-icon" aria-hidden="true">■</span>
+          </button>
+          <button id="clearButton" class="secondary-button" type="button">クリア</button>
+        </div>
+
+        <label class="control-group">
+          <span>BPM <strong id="bpmValue">100</strong></span>
+          <input id="bpmInput" type="range" min="50" max="180" value="100">
+        </label>
+
+        <label class="control-group">
+          <span>スウィング <strong id="swingValue">0%</strong></span>
+          <input id="swingInput" type="range" min="0" max="45" value="0">
+        </label>
+
+        <label class="control-group volume-control">
+          <span>音量 <strong id="volumeValue">80%</strong></span>
+          <input id="volumeInput" type="range" min="0" max="100" value="80">
+        </label>
+      </section>
+
+      <section class="lesson-strip panel" aria-live="polite">
+        <div>
+          <span class="lesson-label">いまの学び</span>
+          <h2 id="lessonTitle">自由にビートを作ろう</h2>
+          <p id="lessonText">光るマスをタップすると、その位置で音が鳴るよ。4マスで1拍、16マスで1小節。</p>
+        </div>
+        <div class="count-display" aria-label="現在のカウント">
+          <span id="beatCount">1</span>
+          <small id="subdivisionCount">e</small>
+        </div>
+      </section>
+
+      <section class="sequencer-panel panel" aria-label="16ステップシーケンサー">
+        <div class="timeline" aria-hidden="true">
+          <div></div>
+          <div class="beat-number">1</div><div></div><div></div><div></div>
+          <div class="beat-number">2</div><div></div><div></div><div></div>
+          <div class="beat-number">3</div><div></div><div></div><div></div>
+          <div class="beat-number">4</div><div></div><div></div><div></div>
+        </div>
+        <div id="sequencer" class="sequencer"></div>
+      </section>
+
+      <section class="bottom-grid">
+        <div class="panel presets-panel">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">PRESETS</span>
+              <h2>リズムから学ぶ</h2>
+            </div>
+          </div>
+          <div id="presetButtons" class="preset-buttons"></div>
+        </div>
+
+        <div class="panel theory-panel">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">VISUAL GUIDE</span>
+              <h2>拍の見え方</h2>
+            </div>
+          </div>
+          <div class="beat-map" aria-hidden="true">
+            <div><strong>1</strong><span>e</span><span>&</span><span>a</span></div>
+            <div><strong>2</strong><span>e</span><span>&</span><span>a</span></div>
+            <div><strong>3</strong><span>e</span><span>&</span><span>a</span></div>
+            <div><strong>4</strong><span>e</span><span>&</span><span>a</span></div>
+          </div>
+          <p>太い区切りが拍の頭。「&」は裏拍、「e」「a」は16分音符の細かい位置を表すよ。</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="helpDialog">
+    <div class="dialog-content">
+      <button id="closeHelpButton" class="dialog-close" type="button" aria-label="閉じる">×</button>
+      <p class="eyebrow">HOW TO USE</p>
+      <h2>使い方</h2>
+      <ol>
+        <li>マスをタップして音を置く</li>
+        <li>再生ボタンで左から順に鳴らす</li>
+        <li>BPMやスウィングを動かしてノリの違いを比べる</li>
+        <li>プリセットを選び、楽器ごとの役割を観察する</li>
+      </ol>
+      <p class="dialog-note">音はブラウザ内で生成するため、音源ファイルの読み込みは不要だよ。</p>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
