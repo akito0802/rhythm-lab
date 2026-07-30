@@ -16,8 +16,9 @@ function renderRhythmView(){
   const usedTracks=tracks.filter(track=>Array.isArray(preset.pattern[track.id])&&preset.pattern[track.id].length);
   const maxStep=Math.max(15,...usedTracks.flatMap(track=>preset.pattern[track.id]));
   const stepCount=maxStep>=16?32:16;
+  const instrumentNames=usedTracks.map(track=>track.name).join(' / ');
   rhythmViewTitle.textContent=`${preset.name} の配置`;
-  rhythmViewDescription.textContent=`${preset.category}・${preset.meter}・BPM ${preset.bpm}｜${preset.feature}`;
+  rhythmViewDescription.innerHTML=`<strong>${preset.category}・${preset.meter}・BPM ${preset.bpm}・${preset.difficulty}</strong><br>${preset.feature}<br><span>使用楽器：${instrumentNames}</span><br><span>練習方法：${preset.practice}</span>`;
   rhythmViewGrid.style.setProperty('--view-steps',stepCount);
   rhythmViewGrid.innerHTML=`<div class="rhythm-view-timeline"><div></div>${Array.from({length:stepCount},(_,i)=>`<span class="${i%4===0?'is-beat':''}">${i%4===0?Math.floor(i/4)+1:['','e','&','a'][i%4]}</span>`).join('')}</div>`+
     usedTracks.map(track=>{
