@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#111318">
   <meta name="description" content="目で見て、聴いて、触って学べるリズム学習ビートマシン">
   <title>Rhythm Lab</title>
-  <link rel="stylesheet" href="style.css?v=6">
-  <link rel="stylesheet" href="mobile.css?v=6">
-  <link rel="stylesheet" href="rhythm-picker.css?v=6">
-  <link rel="stylesheet" href="roadmap.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="mobile.css?v=7">
+  <link rel="stylesheet" href="rhythm-picker.css?v=7">
+  <link rel="stylesheet" href="roadmap.css?v=7">
 </head>
 <body>
   <div class="app-shell">
@@ -32,18 +32,17 @@
         <div class="picker-title"><span class="section-kicker">RHYTHM SELECT</span><strong>ジャンルからリズムを選ぶ</strong></div>
         <div class="two-stage-picker">
           <label class="picker-field">
-            <span class="picker-number">1</span>
-            <span class="picker-label">ジャンル</span>
+            <span class="picker-number">1</span><span class="picker-label">ジャンル</span>
             <select id="categorySelect" aria-label="ジャンルを選ぶ"><option value="all">すべて</option></select>
           </label>
           <span class="picker-arrow" aria-hidden="true">→</span>
           <label class="picker-field rhythm-field">
-            <span class="picker-number">2</span>
-            <span class="picker-label">リズム</span>
+            <span class="picker-number">2</span><span class="picker-label">リズム</span>
             <select id="presetSelect" aria-label="リズムを選ぶ"></select>
           </label>
           <button id="favoriteButton" class="favorite-button" type="button" aria-pressed="false" aria-label="お気に入り">☆</button>
         </div>
+        <button id="viewRhythmButton" class="view-rhythm-button" type="button">👁 リズムを見る</button>
         <input id="presetSearch" type="hidden" value="">
       </section>
 
@@ -76,7 +75,19 @@
     </main>
   </div>
 
-  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close" type="button">×</button><p class="eyebrow">HOW TO USE</p><h2>使い方</h2><ol><li>ジャンルを選ぶ</li><li>表示された候補からリズムを選ぶ</li><li>再生して光る位置を見る</li><li>マスをタップして編集する</li></ol><p class="dialog-note">24種類の楽器音はブラウザ内で生成されるよ。</p></div></dialog>
-  <script src="app.js?v=6"></script>
+  <dialog id="rhythmViewDialog" class="rhythm-view-dialog">
+    <div class="rhythm-view-content">
+      <button id="closeRhythmViewButton" class="dialog-close" type="button" aria-label="閉じる">×</button>
+      <p class="eyebrow">RHYTHM MAP</p>
+      <h2 id="rhythmViewTitle">リズムの配置</h2>
+      <p id="rhythmViewDescription" class="rhythm-view-description"></p>
+      <div class="rhythm-view-legend"><span><i class="legend-on"></i>鳴る</span><span><i class="legend-off"></i>休み</span></div>
+      <div id="rhythmViewGrid" class="rhythm-view-grid"></div>
+    </div>
+  </dialog>
+
+  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close" type="button">×</button><p class="eyebrow">HOW TO USE</p><h2>使い方</h2><ol><li>ジャンルを選ぶ</li><li>表示された候補からリズムを選ぶ</li><li>「リズムを見る」で配置を確認する</li><li>再生して音と位置を結びつける</li></ol><p class="dialog-note">24種類の楽器音はブラウザ内で生成されるよ。</p></div></dialog>
+  <script src="app.js?v=7"></script>
+  <script src="visualizer.js?v=7"></script>
 </body>
 </html>
