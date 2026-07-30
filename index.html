@@ -6,39 +6,73 @@
   <meta name="theme-color" content="#111318">
   <meta name="description" content="目で見て、聴いて、触って学べるリズム学習ビートマシン">
   <title>Rhythm Lab</title>
-  <link rel="stylesheet" href="style.css?v=4">
-  <link rel="stylesheet" href="mobile.css?v=4">
-  <link rel="stylesheet" href="rhythm-picker.css?v=4">
-  <link rel="stylesheet" href="roadmap.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="mobile.css?v=5">
+  <link rel="stylesheet" href="rhythm-picker.css?v=5">
+  <link rel="stylesheet" href="roadmap.css?v=5">
 </head>
 <body>
   <div class="app-shell">
-    <header class="topbar">
-      <div><p class="eyebrow">VISUAL RHYTHM LEARNING</p><h1>Rhythm Lab</h1><p class="version-badge">Ver.0.2 Expanded Kit</p></div>
+    <header class="topbar compact-header">
+      <div><p class="eyebrow">VISUAL RHYTHM LEARNING</p><h1>Rhythm Lab</h1></div>
       <button id="helpButton" class="icon-button" type="button" aria-label="使い方を表示">?</button>
     </header>
+
     <main>
-      <section class="transport panel" aria-label="再生コントロール">
-        <div class="transport-main"><button id="playButton" class="play-button" type="button" aria-label="再生"><span class="play-icon">▶</span><span class="stop-icon">■</span></button><button id="clearButton" class="secondary-button" type="button">クリア</button><button id="saveButton" class="secondary-button" type="button">保存</button></div>
-        <label class="control-group"><span>BPM <strong id="bpmValue">100</strong></span><input id="bpmInput" type="range" min="50" max="220" value="100"></label>
-        <label class="control-group"><span>スウィング <strong id="swingValue">0%</strong></span><input id="swingInput" type="range" min="0" max="45" value="0"></label>
-        <label class="control-group volume-control"><span>音量 <strong id="volumeValue">80%</strong></span><input id="volumeInput" type="range" min="0" max="100" value="80"></label>
-        <label class="select-control"><span>ステップ</span><select id="stepCountSelect"><option value="16">16</option><option value="32">32</option></select></label>
-        <label class="select-control"><span>拍子</span><select id="meterSelect"><option value="4/4">4/4</option><option value="3/4">3/4</option><option value="6/8">6/8</option><option value="5/4">5/4</option></select></label>
-        <label class="toggle-control"><input id="metronomeInput" type="checkbox"><span>メトロノーム</span></label>
+      <section class="panel primary-controls" aria-label="基本操作">
+        <div class="transport-main">
+          <button id="playButton" class="play-button" type="button" aria-label="再生"><span class="play-icon">▶</span><span class="stop-icon">■</span></button>
+          <button id="clearButton" class="secondary-button" type="button">クリア</button>
+          <button id="saveButton" class="secondary-button" type="button">保存</button>
+        </div>
+        <label class="control-group bpm-control"><span>BPM <strong id="bpmValue">100</strong></span><input id="bpmInput" type="range" min="50" max="220" value="100"></label>
       </section>
-      <section class="panel rhythm-picker" aria-label="リズム選択"><div class="picker-grid">
-        <label><span class="section-kicker">RHYTHM SEARCH</span><strong>検索</strong><input id="presetSearch" type="search" placeholder="ロック、ジャズ、裏拍…"></label>
-        <label><span class="section-kicker">CATEGORY</span><strong>ジャンル</strong><select id="categorySelect"><option value="all">すべて</option></select></label>
-        <label><span class="section-kicker">RHYTHM SELECT</span><strong>リズムを選ぶ</strong><select id="presetSelect"></select></label>
-        <button id="favoriteButton" class="favorite-button" type="button" aria-pressed="false">☆ お気に入り</button>
-      </div></section>
-      <section class="lesson-strip panel" aria-live="polite"><div class="lesson-main"><span class="lesson-label">いまの学び</span><h2 id="lessonTitle">自由にビートを作ろう</h2><p id="lessonText">光るマスをタップすると、その位置で音が鳴るよ。</p><div id="lessonTags" class="lesson-tags"></div></div><div class="count-display"><span id="beatCount">1</span><small id="subdivisionCount">e</small></div></section>
-      <section class="sequencer-panel panel" aria-label="ステップシーケンサー"><div class="sequencer-toolbar"><strong id="kitSummary">24 INSTRUMENTS</strong><span>横にスクロールして全ステップを確認</span></div><div id="timeline" class="timeline" aria-hidden="true"></div><div id="sequencer" class="sequencer"></div></section>
-      <section class="bottom-grid"><div class="panel presets-panel"><div class="section-heading"><div><span class="section-kicker">RHYTHM LIBRARY</span><h2>収録リズム</h2></div><span id="rhythmLibrary"></span></div><div id="presetCards" class="preset-cards"></div></div><div class="panel theory-panel"><div class="section-heading"><div><span class="section-kicker">LEARNING GUIDE</span><h2>学習ポイント</h2></div></div><dl class="learning-list"><div><dt>特徴</dt><dd id="featureText">基本の配置を自由に試そう</dd></div><div><dt>楽器の役割</dt><dd id="roleText">キックは土台、スネアは拍の輪郭を作る</dd></div><div><dt>練習</dt><dd id="practiceText">まずはBPM 80から始めよう</dd></div></dl></div></section>
+
+      <section class="panel rhythm-picker simple-picker" aria-label="リズム選択">
+        <div class="picker-title"><span class="section-kicker">RHYTHM SELECT</span><strong>リズムを選ぶ</strong></div>
+        <div class="picker-main-row">
+          <select id="presetSelect" aria-label="リズムを選ぶ"></select>
+          <button id="favoriteButton" class="favorite-button" type="button" aria-pressed="false">☆</button>
+        </div>
+        <details class="filter-details">
+          <summary>検索・ジャンルで絞り込む</summary>
+          <div class="filter-grid">
+            <label><span>検索</span><input id="presetSearch" type="search" placeholder="ロック、ジャズ、裏拍…"></label>
+            <label><span>ジャンル</span><select id="categorySelect"><option value="all">すべて</option></select></label>
+          </div>
+        </details>
+      </section>
+
+      <section class="lesson-strip panel compact-lesson" aria-live="polite">
+        <div class="lesson-main"><span class="lesson-label">いまの学び</span><h2 id="lessonTitle">自由にビートを作ろう</h2><p id="lessonText">光るマスをタップすると、その位置で音が鳴るよ。</p><div id="lessonTags" class="lesson-tags"></div></div>
+        <div class="count-display"><span id="beatCount">1</span><small id="subdivisionCount">e</small></div>
+      </section>
+
+      <section class="sequencer-panel panel" aria-label="ステップシーケンサー">
+        <div class="sequencer-toolbar"><strong id="kitSummary">24 INSTRUMENTS</strong><span>横にスクロール</span></div>
+        <div id="timeline" class="timeline" aria-hidden="true"></div>
+        <div id="sequencer" class="sequencer"></div>
+      </section>
+
+      <details class="panel advanced-panel">
+        <summary>詳細設定</summary>
+        <div class="advanced-grid">
+          <label class="control-group"><span>スウィング <strong id="swingValue">0%</strong></span><input id="swingInput" type="range" min="0" max="45" value="0"></label>
+          <label class="control-group volume-control"><span>音量 <strong id="volumeValue">80%</strong></span><input id="volumeInput" type="range" min="0" max="100" value="80"></label>
+          <label class="select-control"><span>ステップ</span><select id="stepCountSelect"><option value="16">16</option><option value="32">32</option></select></label>
+          <label class="select-control"><span>拍子</span><select id="meterSelect"><option value="4/4">4/4</option><option value="3/4">3/4</option><option value="6/8">6/8</option><option value="5/4">5/4</option></select></label>
+          <label class="toggle-control"><input id="metronomeInput" type="checkbox"><span>メトロノーム</span></label>
+        </div>
+      </details>
+
+      <section class="bottom-grid simplified-bottom">
+        <div class="panel presets-panel"><div class="section-heading"><div><span class="section-kicker">RHYTHM LIBRARY</span><h2>収録リズム</h2></div><span id="rhythmLibrary"></span></div><div id="presetCards" class="preset-cards"></div></div>
+        <div class="panel theory-panel"><div class="section-heading"><div><span class="section-kicker">LEARNING GUIDE</span><h2>学習ポイント</h2></div></div><dl class="learning-list"><div><dt>特徴</dt><dd id="featureText">基本の配置を自由に試そう</dd></div><div><dt>楽器の役割</dt><dd id="roleText">キックは土台、スネアは拍の輪郭を作る</dd></div><div><dt>練習</dt><dd id="practiceText">まずはBPM 80から始めよう</dd></div></dl></div>
+      </section>
     </main>
   </div>
-  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close" type="button">×</button><p class="eyebrow">HOW TO USE</p><h2>使い方</h2><ol><li>ジャンルや検索からリズムを選ぶ</li><li>再生して光る位置と音を結びつける</li><li>BPM・スウィング・拍子を変えて比較する</li><li>マスを編集して自分のパターンを保存する</li></ol><p class="dialog-note">24種類の楽器音はブラウザ内で生成されるよ。</p></div></dialog>
-  <script src="app.js?v=4"></script>
+
+  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close" type="button">×</button><p class="eyebrow">HOW TO USE</p><h2>使い方</h2><ol><li>リズムを選ぶ</li><li>再生して光る位置を見る</li><li>マスをタップして編集する</li><li>必要なときだけ詳細設定を開く</li></ol><p class="dialog-note">24種類の楽器音はブラウザ内で生成されるよ。</p></div></dialog>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
