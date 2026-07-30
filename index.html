@@ -6,10 +6,11 @@
   <meta name="theme-color" content="#111318">
   <meta name="description" content="目で見て、聴いて、触って学べるリズム学習ビートマシン">
   <title>Rhythm Lab</title>
-  <link rel="stylesheet" href="style.css?v=10">
-  <link rel="stylesheet" href="mobile.css?v=10">
-  <link rel="stylesheet" href="rhythm-picker.css?v=10">
-  <link rel="stylesheet" href="roadmap.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="mobile.css?v=11">
+  <link rel="stylesheet" href="rhythm-picker.css?v=11">
+  <link rel="stylesheet" href="roadmap.css?v=11">
+  <link rel="stylesheet" href="performance.css?v=11">
 </head>
 <body>
   <div class="app-shell">
@@ -32,15 +33,9 @@
       <section class="panel rhythm-picker simple-picker" aria-label="リズム選択">
         <div class="picker-title"><span class="section-kicker">RHYTHM SELECT</span><strong>ジャンルからリズムを選ぶ</strong></div>
         <div class="two-stage-picker">
-          <label class="picker-field">
-            <span class="picker-number">1</span><span class="picker-label">ジャンル</span>
-            <select id="categorySelect" aria-label="ジャンルを選ぶ"><option value="all">すべて</option></select>
-          </label>
+          <label class="picker-field"><span class="picker-number">1</span><span class="picker-label">ジャンル</span><select id="categorySelect" aria-label="ジャンルを選ぶ"><option value="all">すべて</option></select></label>
           <span class="picker-arrow" aria-hidden="true">→</span>
-          <label class="picker-field rhythm-field">
-            <span class="picker-number">2</span><span class="picker-label">リズム</span>
-            <select id="presetSelect" aria-label="リズムを選ぶ"></select>
-          </label>
+          <label class="picker-field rhythm-field"><span class="picker-number">2</span><span class="picker-label">リズム</span><select id="presetSelect" aria-label="リズムを選ぶ"></select></label>
           <button id="favoriteButton" class="favorite-button" type="button" aria-pressed="false" aria-label="お気に入り">☆</button>
         </div>
         <button id="viewRhythmButton" class="view-rhythm-button" type="button">リズムを見る</button>
@@ -58,13 +53,29 @@
         <div id="sequencer" class="sequencer"></div>
       </section>
 
-      <details class="panel advanced-panel">
-        <summary>詳細設定</summary>
+      <details class="panel advanced-panel" open>
+        <summary>詳細設定・演奏表現</summary>
         <div class="advanced-grid">
           <label class="control-group volume-control"><span>音量 <strong id="volumeValue">80%</strong></span><input id="volumeInput" type="range" min="0" max="100" value="80"></label>
           <label class="select-control"><span>ステップ</span><select id="stepCountSelect"><option value="4">4</option><option value="8">8</option><option value="16" selected>16</option><option value="32">32</option></select></label>
           <label class="select-control"><span>拍子</span><select id="meterSelect"><option value="4/4">4/4</option><option value="3/4">3/4</option><option value="6/8">6/8</option><option value="5/4">5/4</option></select></label>
           <label class="toggle-control"><input id="metronomeInput" type="checkbox"><span>メトロノーム</span></label>
+        </div>
+        <div class="performance-controls">
+          <div class="performance-heading"><strong>マスに付ける演奏表現</strong><small>種類を選んでからシーケンサーのマスをタップ</small></div>
+          <div class="expression-modes" role="group" aria-label="演奏表現">
+            <button class="expression-button is-selected" data-expression-mode="normal" type="button">通常<span>Normal</span></button>
+            <button class="expression-button" data-expression-mode="accent" type="button">アクセント<span>強く鳴らす</span></button>
+            <button class="expression-button" data-expression-mode="ghost" type="button">ゴースト<span>弱く鳴らす</span></button>
+            <button class="expression-button" data-expression-mode="flam" type="button">フラム<span>2打をずらす</span></button>
+            <button class="expression-button" data-expression-mode="roll" type="button">ロール<span>細かく連打</span></button>
+          </div>
+          <div class="performance-grid">
+            <label class="control-group"><span>ベロシティ <strong id="velocityValue" class="performance-value">100</strong></span><input id="velocityInput" type="range" min="20" max="127" value="100"></label>
+            <label class="control-group"><span>Humanize <strong id="humanizeValue" class="performance-value">0%</strong></span><input id="humanizeInput" type="range" min="0" max="100" value="0"></label>
+            <label class="select-control"><span>ドラムキット</span><select id="drumKitSelect"><option value="studio">Studio</option><option value="electronic">Electronic</option><option value="vintage">Vintage</option><option value="lofi">Lo-Fi</option></select></label>
+          </div>
+          <div class="expression-legend"><span>白枠＝アクセント</span><span>薄いマス＝ゴースト</span><span>F＝フラム</span><span>R＝ロール</span><span>Closed HHでOpen HHを止める</span></div>
         </div>
       </details>
 
@@ -75,20 +86,11 @@
     </main>
   </div>
 
-  <dialog id="rhythmViewDialog" class="rhythm-view-dialog">
-    <div class="rhythm-view-content">
-      <button id="closeRhythmViewButton" class="dialog-close" type="button" aria-label="閉じる">×</button>
-      <p class="eyebrow">RHYTHM MAP</p>
-      <h2 id="rhythmViewTitle">リズムの配置</h2>
-      <p id="rhythmViewDescription" class="rhythm-view-description"></p>
-      <div class="rhythm-view-legend"><span><i class="legend-on"></i>鳴る</span><span><i class="legend-off"></i>休み</span></div>
-      <div id="rhythmViewGrid" class="rhythm-view-grid"></div>
-    </div>
-  </dialog>
-
-  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close" type="button">×</button><p class="eyebrow">HOW TO USE</p><h2>使い方</h2><ol><li>ジャンルを選ぶ</li><li>表示された候補からリズムを選ぶ</li><li>「リズムを見る」で配置を確認する</li><li>再生して音と位置を結びつける</li></ol><p class="dialog-note">24種類の楽器音はブラウザ内で生成されるよ。</p></div></dialog>
-  <script src="app.js?v=10"></script>
-  <script src="more-presets.js?v=10"></script>
-  <script src="visualizer.js?v=10"></script>
+  <dialog id="rhythmViewDialog" class="rhythm-view-dialog"><div class="rhythm-view-content"><button id="closeRhythmViewButton" class="dialog-close" type="button" aria-label="閉じる">×</button><p class="eyebrow">RHYTHM MAP</p><h2 id="rhythmViewTitle">リズムの配置</h2><p id="rhythmViewDescription" class="rhythm-view-description"></p><div class="rhythm-view-legend"><span><i class="legend-on"></i>鳴る</span><span><i class="legend-off"></i>休み</span></div><div id="rhythmViewGrid" class="rhythm-view-grid"></div></div></dialog>
+  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close" type="button">×</button><p class="eyebrow">HOW TO USE</p><h2>使い方</h2><ol><li>ジャンルとリズムを選ぶ</li><li>演奏表現とベロシティを選ぶ</li><li>マスをタップして配置する</li><li>Humanizeやキットを変えて聴き比べる</li></ol><p class="dialog-note">Closed HHまたはPedal HHが鳴ると、Open HHの余韻が自然に止まるよ。</p></div></dialog>
+  <script src="app.js?v=11"></script>
+  <script src="more-presets.js?v=11"></script>
+  <script src="visualizer.js?v=11"></script>
+  <script src="performance.js?v=11"></script>
 </body>
 </html>
