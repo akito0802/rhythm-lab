@@ -11,7 +11,6 @@ function setStepMeta(id,i,meta){ensureStepData();performanceState.stepData[id][i
 function gainFor(meta){const v=Math.max(.05,Math.min(1.25,(meta.velocity??100)/100));if(meta.expression==='accent')return v*1.22;if(meta.expression==='ghost')return v*.34;return v}
 function humanized(time,meta){const amount=performanceState.humanize/100;return {time:Math.max(state.audioContext.currentTime,time+((Math.random()*2-1)*.018*amount)),gain:gainFor(meta)*(1+((Math.random()*2-1)*.13*amount))}}
 function chokeOpenHat(time){performanceState.openHatVoices=performanceState.openHatVoices.filter(v=>{try{v.gain.gain.cancelScheduledValues(time);v.gain.gain.setTargetAtTime(.001,time,.012);v.source.stop(time+.05)}catch{}return false})}
-const originalTriggerSound=triggerSound;
 triggerSound=function(id,time,meta={expression:'normal',velocity:100}){
  const c=state.audioContext,o=state.masterGain,t=tracks.find(x=>x.id===id);if(!c||!o||!t)return;
  const profile=kitProfiles[performanceState.kit]||kitProfiles.studio;
@@ -38,19 +37,31 @@ toggleStep=function(id,i,b){ensureAudio();ensureStepData();const active=!!state.
 };
 const originalRenderPattern=renderPattern;
 renderPattern=function(){originalRenderPattern();ensureStepData();document.querySelectorAll('.track-row').forEach(row=>row.querySelectorAll('.step').forEach((b,i)=>{const meta=getStepMeta(row.dataset.track,i);b.dataset.expression=meta.expression||'normal';b.dataset.velocityLevel=meta.velocity>=115?'high':meta.velocity<=55?'low':'mid';b.title=state.pattern[row.dataset.track]?.[i]?`${meta.expression}・Velocity ${meta.velocity}`:'クリックで配置'}))};
+function applyPresetPerformance(p){
+ performanceState.stepData={};
+ performanceState.humanize=p.humanize??0;
+ performanceState.kit=p.kit||'studio';
+ ensureStepData();
+ Object.entries(p.performance||{}).forEach(([trackId,steps])=>Object.entries(steps).forEach(([step,value])=>{const [expression,velocity]=value;setStepMeta(trackId,+step,{expression,velocity})}));
+ syncPerformanceUI();
+}
 const originalLoadPreset=loadPreset;
-loadPreset=function(id){performanceState.stepData={};originalLoadPreset(id);ensureStepData();renderPattern()};
+loadPreset=function(id){const p=presets[id];originalLoadPreset(id);if(p)applyPresetPerformance(p);renderPattern()};
 playCurrentStep=function(){const n=effectiveSteps();document.querySelectorAll('.step.is-current').forEach(s=>s.classList.remove('is-current'));document.querySelectorAll(`.step[data-step="${state.currentStep}"]`).forEach(s=>s.classList.add('is-current'));els.beat.textContent=Math.floor(state.currentStep/4)+1;els.sub.textContent=['1','e','&','a'][state.currentStep%4];const time=state.audioContext.currentTime;if(state.metronome&&state.currentStep%4===0)clickSound(time,state.currentStep===0);tracks.forEach(t=>state.pattern[t.id]?.[state.currentStep]&&triggerSound(t.id,time,getStepMeta(t.id,state.currentStep)));const current=state.currentStep;state.currentStep=(state.currentStep+1)%n;state.timer=setTimeout(playCurrentStep,stepDurationMs(current))};
 const originalClear=clear;
 clear=function(){performanceState.stepData={};originalClear();ensureStepData();renderPattern()};
-const originalSavePattern=savePattern;
 savePattern=function(){localStorage.setItem('rhythmLabPattern',JSON.stringify({pattern:state.pattern,bpm:state.bpm,swing:state.swing,meter:state.meter,stepCount:state.stepCount,stepData:performanceState.stepData,performance:{humanize:performanceState.humanize,kit:performanceState.kit,velocity:performanceState.velocity}}));els.save.textContent='保存済み ✓';setTimeout(()=>els.save.textContent='保存',1200)};
 function restorePerformance(){try{const s=JSON.parse(localStorage.getItem('rhythmLabPattern'));if(!s)return;if(s.stepData)performanceState.stepData=s.stepData;if(s.performance)Object.assign(performanceState,s.performance)}catch{}}
+function syncPerformanceUI(){
+ const velocity=document.querySelector('#velocityInput'),velocityValue=document.querySelector('#velocityValue');if(velocity){velocity.value=performanceState.velocity;velocityValue.textContent=performanceState.velocity}
+ const humanize=document.querySelector('#humanizeInput'),humanizeValue=document.querySelector('#humanizeValue');if(humanize){humanize.value=performanceState.humanize;humanizeValue.textContent=`${performanceState.humanize}%`}
+ const kit=document.querySelector('#drumKitSelect');if(kit)kit.value=performanceState.kit;
+ const summary=document.querySelector('#kitSummary');if(summary)summary.textContent=`24 INSTRUMENTS・${kitProfiles[performanceState.kit].name.toUpperCase()}`;
+}
 function bindPerformanceUI(){
  const modeButtons=document.querySelectorAll('[data-expression-mode]');modeButtons.forEach(btn=>btn.addEventListener('click',()=>{performanceState.mode=btn.dataset.expressionMode;modeButtons.forEach(x=>x.classList.toggle('is-selected',x===btn))}));
- const velocity=document.querySelector('#velocityInput'),velocityValue=document.querySelector('#velocityValue');velocity.value=performanceState.velocity;velocityValue.textContent=performanceState.velocity;velocity.addEventListener('input',e=>{performanceState.velocity=+e.target.value;velocityValue.textContent=e.target.value});
- const humanize=document.querySelector('#humanizeInput'),humanizeValue=document.querySelector('#humanizeValue');humanize.value=performanceState.humanize;humanizeValue.textContent=`${performanceState.humanize}%`;humanize.addEventListener('input',e=>{performanceState.humanize=+e.target.value;humanizeValue.textContent=`${e.target.value}%`});
- const kit=document.querySelector('#drumKitSelect');kit.value=performanceState.kit;kit.addEventListener('change',e=>{performanceState.kit=e.target.value;document.querySelector('#kitSummary').textContent=`24 INSTRUMENTS・${kitProfiles[performanceState.kit].name.toUpperCase()}`});
- document.querySelector('#kitSummary').textContent=`24 INSTRUMENTS・${kitProfiles[performanceState.kit].name.toUpperCase()}`;
+ const velocity=document.querySelector('#velocityInput'),velocityValue=document.querySelector('#velocityValue');velocity.addEventListener('input',e=>{performanceState.velocity=+e.target.value;velocityValue.textContent=e.target.value});
+ const humanize=document.querySelector('#humanizeInput'),humanizeValue=document.querySelector('#humanizeValue');humanize.addEventListener('input',e=>{performanceState.humanize=+e.target.value;humanizeValue.textContent=`${e.target.value}%`});
+ const kit=document.querySelector('#drumKitSelect');kit.addEventListener('change',e=>{performanceState.kit=e.target.value;syncPerformanceUI()});syncPerformanceUI();
 }
 restorePerformance();ensureStepData();bindPerformanceUI();buildSequencer();renderPattern();
