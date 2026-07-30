@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#111318">
   <meta name="description" content="目で見て、聴いて、触って学べるリズム学習ビートマシン">
   <title>Rhythm Lab</title>
-  <link rel="stylesheet" href="style.css?v=7">
-  <link rel="stylesheet" href="mobile.css?v=7">
-  <link rel="stylesheet" href="rhythm-picker.css?v=7">
-  <link rel="stylesheet" href="roadmap.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="mobile.css?v=8">
+  <link rel="stylesheet" href="rhythm-picker.css?v=8">
+  <link rel="stylesheet" href="roadmap.css?v=8">
 </head>
 <body>
   <div class="app-shell">
@@ -26,6 +26,7 @@
           <button id="saveButton" class="secondary-button" type="button">保存</button>
         </div>
         <label class="control-group bpm-control"><span>BPM <strong id="bpmValue">100</strong></span><input id="bpmInput" type="range" min="50" max="220" value="100"></label>
+        <label class="control-group swing-control"><span>スウィング <strong id="swingValue">0%</strong></span><input id="swingInput" type="range" min="0" max="45" value="0"></label>
       </section>
 
       <section class="panel rhythm-picker simple-picker" aria-label="リズム選択">
@@ -42,7 +43,7 @@
           </label>
           <button id="favoriteButton" class="favorite-button" type="button" aria-pressed="false" aria-label="お気に入り">☆</button>
         </div>
-        <button id="viewRhythmButton" class="view-rhythm-button" type="button">👁 リズムを見る</button>
+        <button id="viewRhythmButton" class="view-rhythm-button" type="button">リズムを見る</button>
         <input id="presetSearch" type="hidden" value="">
       </section>
 
@@ -60,7 +61,6 @@
       <details class="panel advanced-panel">
         <summary>詳細設定</summary>
         <div class="advanced-grid">
-          <label class="control-group"><span>スウィング <strong id="swingValue">0%</strong></span><input id="swingInput" type="range" min="0" max="45" value="0"></label>
           <label class="control-group volume-control"><span>音量 <strong id="volumeValue">80%</strong></span><input id="volumeInput" type="range" min="0" max="100" value="80"></label>
           <label class="select-control"><span>ステップ</span><select id="stepCountSelect"><option value="16">16</option><option value="32">32</option></select></label>
           <label class="select-control"><span>拍子</span><select id="meterSelect"><option value="4/4">4/4</option><option value="3/4">3/4</option><option value="6/8">6/8</option><option value="5/4">5/4</option></select></label>
@@ -87,7 +87,7 @@
   </dialog>
 
   <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close" type="button">×</button><p class="eyebrow">HOW TO USE</p><h2>使い方</h2><ol><li>ジャンルを選ぶ</li><li>表示された候補からリズムを選ぶ</li><li>「リズムを見る」で配置を確認する</li><li>再生して音と位置を結びつける</li></ol><p class="dialog-note">24種類の楽器音はブラウザ内で生成されるよ。</p></div></dialog>
-  <script src="app.js?v=7"></script>
-  <script src="visualizer.js?v=7"></script>
+  <script src="app.js?v=8"></script>
+  <script src="visualizer.js?v=8"></script>
 </body>
 </html>
