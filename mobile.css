@@ -1,0 +1,91 @@
+@media (max-width: 520px) {
+  body { overflow-x: hidden; }
+  .app-shell { padding: 12px 8px 36px; }
+  .topbar { margin-bottom: 10px; padding: 0 4px; }
+  h1 { font-size: 2.1rem; }
+  .eyebrow { display: none; }
+  .icon-button { width: 40px; height: 40px; }
+
+  .transport {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+  .transport-main { grid-column: 1 / -1; width: 100%; }
+  .play-button { width: 54px; height: 54px; border-radius: 15px; }
+  .secondary-button { flex: 1; }
+  .control-group { min-width: 0; width: 100%; }
+  .control-group span { font-size: .78rem; }
+
+  .lesson-strip {
+    min-height: 0;
+    padding: 14px;
+    gap: 10px;
+    border-radius: 16px;
+  }
+  .lesson-strip h2 { font-size: 1rem; margin-bottom: 4px; }
+  .lesson-strip p { max-width: none; font-size: .78rem; line-height: 1.45; }
+  .lesson-label { font-size: .58rem; }
+  .count-display { width: 54px; height: 54px; border-radius: 15px; }
+  .count-display span { font-size: 1.55rem; }
+
+  .sequencer-panel {
+    margin-left: -8px;
+    margin-right: -8px;
+    padding: 10px 8px 14px;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .timeline, .track-row {
+    min-width: 676px;
+    grid-template-columns: 52px repeat(16, 34px);
+    gap: 4px;
+  }
+  .timeline > div:first-child,
+  .track-label {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: #15181f;
+  }
+  .timeline > div:first-child::after {
+    content: "横にスワイプ";
+    display: block;
+    width: 46px;
+    color: var(--muted);
+    font-size: .52rem;
+    line-height: 1.1;
+  }
+  .track-label {
+    justify-content: center;
+    padding: 0 5px 0 0;
+    box-shadow: 8px 0 12px rgba(11, 13, 17, .75);
+  }
+  .track-label > span:last-child { display: none; }
+  .track-icon { width: 36px; height: 36px; border-radius: 10px; font-size: 1rem; }
+  .step { min-height: 44px; border-radius: 8px; touch-action: manipulation; }
+  .step:nth-of-type(4n + 2) { margin-left: 3px; }
+
+  .presets-panel, .theory-panel { padding: 16px; border-radius: 16px; }
+  .preset-buttons {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    margin: 12px -4px 0;
+    padding: 0 4px 6px;
+    scroll-snap-type: x mandatory;
+  }
+  .preset-button {
+    flex: 0 0 132px;
+    min-height: 62px;
+    scroll-snap-align: start;
+  }
+  .preset-button strong { font-size: .86rem; }
+  .preset-button span { font-size: .68rem; }
+  .theory-panel { display: none; }
+}
