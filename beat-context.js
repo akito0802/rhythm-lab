@@ -55,10 +55,22 @@ function installNotationAndRecordedSamples(){
 }
 
 function installRideTones(){
- if(document.querySelector('script[data-ride-tones]'))return;
+ if(document.querySelector('script[data-ride-tones]'))return Promise.resolve();
+ return new Promise(resolve=>{
+  const script=document.createElement('script');
+  script.src='ride-tones.js?v=1';
+  script.dataset.rideTones='true';
+  script.onload=resolve;
+  script.onerror=resolve;
+  document.body.append(script);
+ });
+}
+
+function installJazzSwingEngine(){
+ if(document.querySelector('script[data-jazz-swing-engine]'))return;
  const script=document.createElement('script');
- script.src='ride-tones.js?v=1';
- script.dataset.rideTones='true';
+ script.src='jazz-swing-engine.js?v=2';
+ script.dataset.jazzSwingEngine='true';
  document.body.append(script);
 }
 
@@ -68,5 +80,5 @@ setTimeout(()=>{
  syncSelectedBeat();
  unifyFillInWording();
  installNotationAndRecordedSamples();
- installRideTones();
+ installRideTones().then(installJazzSwingEngine);
 },0);
