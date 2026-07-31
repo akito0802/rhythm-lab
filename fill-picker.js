@@ -22,9 +22,9 @@ function renderFillPicker(){
    <div id="fillSelectedTags" class="fill-tags"></div>
    <h3 id="fillSelectedName"></h3>
    <p id="fillSelectedDescription"></p>
+   <button id="viewSelectedFill" type="button" class="view-rhythm-button">ビートを見る</button>
    <div class="fill-actions fill-selected-actions">
     <button id="previewSelectedFill" type="button">試聴</button>
-    <button id="viewSelectedFill" type="button">配置を見る</button>
     <button id="loadSelectedFill" type="button" class="fill-primary">シーケンサーへ読み込む</button>
    </div>
   </article>`;
