@@ -17,9 +17,18 @@ document.write('<script src="planned-presets.js?v=18"><\/script>');
  const style=document.createElement('style');
  style.textContent=`
   .rhythm-picker{position:relative}
-  .picker-actions{display:grid;grid-template-columns:minmax(0,1fr) 52px;gap:10px;margin-top:12px}
+  .picker-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(132px,auto);gap:10px;margin-top:12px}
   .picker-actions .view-rhythm-button{margin:0;min-height:50px;font-size:.95rem;letter-spacing:.02em}
-  .picker-actions .favorite-button{width:52px;height:50px;margin:0;font-size:1.3rem}
+  .picker-actions .favorite-button{width:auto;min-width:132px;height:50px;margin:0;padding:0 16px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.86rem;font-weight:900;letter-spacing:.02em;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease,color .18s ease}
+  .picker-actions .favorite-button::before{content:'☆';font-size:1.25rem;line-height:1;transform:translateY(-1px)}
+  .picker-actions .favorite-button:hover{transform:translateY(-1px);border-color:rgba(255,189,46,.48);background:rgba(255,189,46,.1)}
+  .picker-actions .favorite-button:active{transform:scale(.97)}
+  .picker-actions .favorite-button[aria-pressed='true']{color:#17120a;border-color:rgba(255,189,46,.85);background:linear-gradient(145deg,#ffd166,#ffbd2e);box-shadow:0 8px 24px rgba(255,189,46,.22),inset 0 1px 0 rgba(255,255,255,.5)}
+  .picker-actions .favorite-button[aria-pressed='true']::before{content:'★'}
+  .picker-actions .favorite-button.is-popping{animation:favoritePop .32s ease}
+  @keyframes favoritePop{0%{transform:scale(.9)}55%{transform:scale(1.08)}100%{transform:scale(1)}}
+  .favorite-toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));z-index:9999;transform:translate(-50%,18px);opacity:0;pointer-events:none;padding:10px 16px;border-radius:999px;background:rgba(17,19,24,.94);border:1px solid rgba(255,255,255,.13);box-shadow:0 12px 34px rgba(0,0,0,.3);font-size:.82rem;font-weight:800;transition:opacity .2s ease,transform .2s ease;backdrop-filter:blur(12px)}
+  .favorite-toast.is-visible{opacity:1;transform:translate(-50%,0)}
   .feature-page-link{order:3}
   .primary-controls{order:1}
   .rhythm-picker{order:2}
@@ -34,9 +43,9 @@ document.write('<script src="planned-presets.js?v=18"><\/script>');
   .feature-page-link h2{font-size:1.05rem;margin-bottom:2px}
   .feature-page-link p{font-size:.8rem}
   @media(max-width:620px){
-   .picker-actions{grid-template-columns:1fr 46px;gap:8px}
+   .picker-actions{grid-template-columns:1fr;gap:8px}
    .picker-actions .view-rhythm-button{min-height:46px;font-size:.88rem}
-   .picker-actions .favorite-button{width:46px;height:46px}
+   .picker-actions .favorite-button{width:100%;min-width:0;height:46px}
    .rhythm-picker::before{display:none}
   }
  `;
@@ -48,8 +57,36 @@ document.write('<script src="planned-presets.js?v=18"><\/script>');
  if(viewButton&&favorite&&pickerGrid){
   viewButton.textContent='ビートを見る';
   viewButton.setAttribute('aria-label','選択中のビート配置を見る');
-  favorite.textContent=favorite.getAttribute('aria-pressed')==='true'?'★':'☆';
-  favorite.setAttribute('aria-label','お気に入りに追加');
+  const syncFavoriteLabel=()=>{
+   const active=favorite.getAttribute('aria-pressed')==='true';
+   favorite.textContent=active?'お気に入り済み':'お気に入り';
+   favorite.setAttribute('aria-label',active?'お気に入りから削除':'お気に入りに追加');
+   favorite.setAttribute('title',active?'お気に入りから削除':'お気に入りに追加');
+  };
+  syncFavoriteLabel();
+  const toast=document.createElement('div');
+  toast.className='favorite-toast';
+  toast.setAttribute('role','status');
+  toast.setAttribute('aria-live','polite');
+  document.body.append(toast);
+  let toastTimer;
+  const showToast=message=>{
+   toast.textContent=message;
+   toast.classList.add('is-visible');
+   clearTimeout(toastTimer);
+   toastTimer=setTimeout(()=>toast.classList.remove('is-visible'),1400);
+  };
+  favorite.addEventListener('click',()=>{
+   requestAnimationFrame(()=>{
+    syncFavoriteLabel();
+    favorite.classList.remove('is-popping');
+    void favorite.offsetWidth;
+    favorite.classList.add('is-popping');
+    const active=favorite.getAttribute('aria-pressed')==='true';
+    showToast(active?'お気に入りに追加したよ':'お気に入りから外したよ');
+   });
+  });
+  new MutationObserver(syncFavoriteLabel).observe(favorite,{attributes:true,attributeFilter:['aria-pressed']});
   const actions=document.createElement('div');
   actions.className='picker-actions';
   actions.append(viewButton,favorite);
