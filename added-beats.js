@@ -44,4 +44,7 @@ Object.entries(groups).forEach(([category,names])=>names.forEach((name,i)=>{
  practice:`BPM ${Math.max(55,bpm[category][i]-30)}から始め、まず土台の2音だけ確認してから他の楽器を重ねよう。`,
  lesson:`${name}の代表的なノリを学習用に整理したプリセット。`,pattern:vary(base[category],i,category)};
 }));
+const expansion=document.createElement('script');
+expansion.src='beat-expansion.js?v=24';
+document.head.appendChild(expansion);
 })();
