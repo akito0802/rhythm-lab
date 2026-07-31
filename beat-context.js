@@ -16,6 +16,22 @@ function syncSelectedBeat({resume=false}={}){
  if((resume||wasPlaying)&&typeof start==='function')start();
 }
 
+function refreshBeatSelectors(){
+ const beatSelect=document.querySelector('#presetSelect');
+ const categorySelect=document.querySelector('#categorySelect');
+ if(typeof buildCategories==='function'&&typeof buildPresetUI==='function'){
+  const currentCategory=categorySelect?.value||'all';
+  const currentBeat=beatSelect?.value||state.selectedPreset;
+  if(categorySelect){
+   categorySelect.innerHTML='<option value="all">すべて</option>';
+   buildCategories();
+   if([...categorySelect.options].some(option=>option.value===currentCategory))categorySelect.value=currentCategory;
+  }
+  buildPresetUI();
+  if(currentBeat&&presets[currentBeat]&&[...beatSelect.options].some(option=>option.value===currentBeat))beatSelect.value=currentBeat;
+ }
+}
+
 const beatSelect=document.querySelector('#presetSelect');
 const categorySelect=document.querySelector('#categorySelect');
 
@@ -34,15 +50,16 @@ document.querySelector('#playButton')?.addEventListener('pointerdown',()=>{
 
 document.querySelector('.feature-page-link')?.addEventListener('click',saveSelectedBeatContext);
 
+const extraPresetScript=document.createElement('script');
+extraPresetScript.src='extra-presets-2.js?v=1';
+extraPresetScript.onload=()=>{
+ refreshBeatSelectors();
+ const selected=document.querySelector('#presetSelect')?.value;
+ if(selected&&presets[selected])loadPreset(selected);
+};
+document.body.append(extraPresetScript);
+
 setTimeout(()=>{
- if(typeof buildCategories==='function'&&typeof buildPresetUI==='function'){
-  const currentCategory=categorySelect?.value||'all';
-  if(categorySelect){
-   categorySelect.innerHTML='<option value="all">すべて</option>';
-   buildCategories();
-   if([...categorySelect.options].some(option=>option.value===currentCategory))categorySelect.value=currentCategory;
-  }
-  buildPresetUI();
- }
+ refreshBeatSelectors();
  syncSelectedBeat();
 },0);
