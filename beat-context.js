@@ -74,11 +74,20 @@ function installJazzSwingEngine(){
  document.body.append(script);
 }
 
+function installExtraInstruments(){
+ if(document.querySelector('script[data-extra-instruments]'))return;
+ const script=document.createElement('script');
+ script.src='extra-instruments.js?v=1';
+ script.dataset.extraInstruments='true';
+ document.body.append(script);
+}
+
 unifyFillInWording();
 setTimeout(()=>{
  refreshBeatSelectors();
  syncSelectedBeat();
  unifyFillInWording();
  installNotationAndRecordedSamples();
+ installExtraInstruments();
  installRideTones().then(installJazzSwingEngine);
 },0);
