@@ -1,47 +1,23 @@
-function saveSelectedBeatContext(){
- const id=document.querySelector('#presetSelect')?.value||state.selectedPreset;
- const preset=presets[id];
- if(!id||!preset)return;
- localStorage.setItem('rhythmLabSelectedBeat',JSON.stringify({id,name:preset.name,category:preset.category,bpm:preset.bpm,meter:preset.meter}));
-}
-
-function syncSelectedBeat({resume=false}={}){
- const select=document.querySelector('#presetSelect');
- const id=select?.value;
- if(!id||!presets[id]||typeof loadPreset!=='function')return;
- const wasPlaying=Boolean(state?.isPlaying);
- if(wasPlaying&&typeof stop==='function')stop();
- loadPreset(id);
- saveSelectedBeatContext();
- if((resume||wasPlaying)&&typeof start==='function')start();
-}
-
-function refreshBeatSelectors(){
- const beatSelect=document.querySelector('#presetSelect');
- const categorySelect=document.querySelector('#categorySelect');
- if(typeof buildCategories==='function'&&typeof buildPresetUI==='function'){
-  const currentCategory=categorySelect?.value||'all';
-  const currentBeat=beatSelect?.value||state.selectedPreset;
-  if(categorySelect){
-   categorySelect.innerHTML='<option value="all">すべて</option>';
-   buildCategories();
-   if([...categorySelect.options].some(option=>option.value===currentCategory))categorySelect.value=currentCategory;
-  }
-  buildPresetUI();
-  if(currentBeat&&presets[currentBeat]&&[...beatSelect.options].some(option=>option.value===currentBeat))beatSelect.value=currentBeat;
- }
-}
-
-function unifyFillInWording(){
- document.querySelectorAll('h1,h2,h3,p,li,span,strong,button,a').forEach(element=>{
-  element.childNodes.forEach(node=>{
-   if(node.nodeType===Node.TEXT_NODE&&node.nodeValue?.includes('おかず'))node.nodeValue=node.nodeValue.replaceAll('おかず','フィルイン');
-  });
- });
-}
-
-const beatSelect=document.querySelector('#presetSelect');
-const categorySelect=document.querySelector('#categorySelect');
+(()=>{
+ const script=document.createElement('script');
+ script.src='extra-beats-3.js?v=1';
+ script.onload=()=>{
+  try{
+   const category=document.querySelector('#categorySelect');
+   const beat=document.querySelector('#presetSelect');
+   const currentCategory=category?.value||'all';
+   const currentBeat=beat?.value||state?.selectedPreset;
+   if(category&&typeof buildCategories==='function'){
+    category.innerHTML='<option value="all">すべて</option>';
+    buildCategories();
+    if([...category.options].some(o=>o.value===currentCategory))category.value=currentCategory;
+   }
+   if(typeof buildPresetUI==='function')buildPresetUI();
+   if(beat&&currentBeat&&presets[currentBeat]&&[...beat.options].some(o=>o.value===currentBeat))beat.value=currentBeat;
+  }catch(error){console.warn('追加ビート第3弾のUI更新に失敗しました',error)}
+ };
+ document.body.append(script);
+})();
 
 beatSelect?.addEventListener('change',()=>syncSelectedBeat());
 categorySelect?.addEventListener('change',()=>{
