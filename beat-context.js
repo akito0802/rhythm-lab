@@ -54,10 +54,19 @@ function installNotationAndRecordedSamples(){
  ['sample-engine.js?v=1','notation.js?v=1'].forEach(src=>{const s=document.createElement('script');s.src=src;document.body.append(s)});
 }
 
+function installRideTones(){
+ if(document.querySelector('script[data-ride-tones]'))return;
+ const script=document.createElement('script');
+ script.src='ride-tones.js?v=1';
+ script.dataset.rideTones='true';
+ document.body.append(script);
+}
+
 unifyFillInWording();
 setTimeout(()=>{
  refreshBeatSelectors();
  syncSelectedBeat();
  unifyFillInWording();
  installNotationAndRecordedSamples();
+ installRideTones();
 },0);
