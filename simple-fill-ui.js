@@ -31,6 +31,7 @@
         <div id="fillSelectedTags" class="fill-tags"></div>
         <h3 id="fillSelectedName"></h3>
         <p id="fillSelectedDescription"></p>
+        <div class="fill-practice-box"><strong>練習ポイント</strong><p id="fillSelectedPractice"></p></div>
         <button id="viewSelectedFill" type="button" class="view-rhythm-button fill-view-main-button">配置を見る</button>
         <div class="fill-actions fill-selected-actions">
           <button id="previewSelectedFill" type="button">試聴</button>
@@ -50,9 +51,11 @@
       window.selectedFillId=selectedId;
       const fill=drumFills[selectedId];
       if(!fill)return;
-      panel.querySelector('#fillSelectedTags').innerHTML=`<span>${fill.genre}</span><span>${fillLengthLabel(fill.length)}</span><span>${fill.difficulty}</span>`;
+      const meterTag=fill.meter&&fill.meter!=='4/4'?`<span>${fill.meter}</span>`:'';
+      panel.querySelector('#fillSelectedTags').innerHTML=`<span>${fill.genre}</span><span>${fillLengthLabel(fill.length)}</span><span>${fill.difficulty}</span>${meterTag}`;
       panel.querySelector('#fillSelectedName').textContent=fill.name;
       panel.querySelector('#fillSelectedDescription').textContent=fill.description;
+      panel.querySelector('#fillSelectedPractice').textContent=fill.practicePoint||'ゆっくりしたBPMから始め、最後の音と次の1拍目をきれいにつなげよう。';
     }
     function rebuild(){
       const items=currentItems();
