@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111318">
-  <meta name="description" content="ジャンルから選んで見て聴けるRhythm Labのおかず視聴ページ">
-  <title>おかず視聴 | Rhythm Lab</title>
+  <meta name="description" content="ジャンルから選んで見て聴けるRhythm Labのフィルイン視聴ページ">
+  <title>フィルイン視聴 | Rhythm Lab</title>
   <link rel="stylesheet" href="style.css?v=20">
   <link rel="stylesheet" href="mobile.css?v=20">
   <link rel="stylesheet" href="rhythm-picker.css?v=20">
@@ -18,24 +18,24 @@
 <body>
   <div class="app-shell">
     <header class="fills-page-header">
-      <div><p class="eyebrow">DRUM FILL VIEWER</p><h1>おかず視聴</h1></div>
+      <div><p class="eyebrow">DRUM FILL VIEWER</p><h1>フィルイン視聴</h1></div>
       <a class="back-link" href="index.html">← Rhythm Labへ戻る</a>
     </header>
     <main>
-      <section class="panel fills-intro"><span class="section-kicker">HOW TO USE</span><h2>ジャンルからおかずを選ぶ</h2><p>メインのビートと同じように、最初にジャンル、次におかずを選択。「試聴」で音を聴き、「配置を見る」で各楽器のタイミングを確認できるよ。</p></section>
+      <section class="panel fills-intro"><span class="section-kicker">HOW TO USE</span><h2>ジャンルからフィルインを選ぶ</h2><p>メインのビートと同じように、最初にジャンル、次にフィルインを選択。「試聴」で音を聴き、「配置を見る」で各楽器のタイミングを確認できるよ。</p></section>
 
-      <section id="drumFillLibrary" class="panel drum-fill-panel" aria-label="おかず選択"></section>
+      <section id="drumFillLibrary" class="panel drum-fill-panel" aria-label="フィルイン選択"></section>
 
       <section class="panel primary-controls" aria-label="基本操作"><div class="transport-main"><button id="playButton" class="play-button" type="button" aria-label="再生"><span class="play-icon">▶</span><span class="stop-icon">■</span></button><button id="clearButton" class="secondary-button" type="button">クリア</button><button id="saveButton" class="secondary-button" type="button">保存</button></div><label class="control-group bpm-control"><span>BPM <strong id="bpmValue">100</strong></span><input id="bpmInput" type="range" min="50" max="220" value="100"></label><label class="control-group swing-control"><span>スウィング <strong id="swingValue">0%</strong></span><input id="swingInput" type="range" min="0" max="45" value="0"></label></section>
 
-      <section class="lesson-strip panel compact-lesson" aria-live="polite"><div class="lesson-main"><span class="lesson-label">いまのおかず</span><h2 id="lessonTitle">おかずを選ぼう</h2><p id="lessonText">ジャンルとおかずを選んで試聴してね。</p><div id="lessonTags" class="lesson-tags"></div></div><div class="count-display"><span id="beatCount">1</span><small id="subdivisionCount">e</small></div></section>
+      <section class="lesson-strip panel compact-lesson" aria-live="polite"><div class="lesson-main"><span class="lesson-label">いまのフィルイン</span><h2 id="lessonTitle">フィルインを選ぼう</h2><p id="lessonText">ジャンルとフィルインを選んで試聴してね。</p><div id="lessonTags" class="lesson-tags"></div></div><div class="count-display"><span id="beatCount">1</span><small id="subdivisionCount">e</small></div></section>
       <section class="sequencer-panel panel" aria-label="フィルシーケンサー"><div class="sequencer-toolbar"><strong id="kitSummary">24 INSTRUMENTS</strong><span>横にスクロール</span></div><div id="timeline" class="timeline"></div><div id="sequencer" class="sequencer"></div></section>
       <details class="panel advanced-panel"><summary>音色・演奏表現</summary><div class="advanced-grid"><label class="control-group volume-control"><span>音量 <strong id="volumeValue">80%</strong></span><input id="volumeInput" type="range" min="0" max="100" value="80"></label><label class="select-control"><span>ステップ</span><select id="stepCountSelect"><option value="4">4</option><option value="8">8</option><option value="16" selected>16</option><option value="32">32</option></select></label><label class="select-control"><span>拍子</span><select id="meterSelect"><option value="4/4">4/4</option><option value="3/4">3/4</option><option value="6/8">6/8</option><option value="5/4">5/4</option><option value="7/8">7/8</option></select></label><label class="toggle-control"><input id="metronomeInput" type="checkbox"><span>メトロノーム</span></label></div><div class="performance-controls"><div class="expression-modes"><button class="expression-button is-selected" data-expression-mode="normal">通常<span>Normal</span></button><button class="expression-button" data-expression-mode="accent">アクセント<span>強く</span></button><button class="expression-button" data-expression-mode="ghost">ゴースト<span>弱く</span></button><button class="expression-button" data-expression-mode="flam">フラム<span>2打</span></button><button class="expression-button" data-expression-mode="roll">ロール<span>連打</span></button></div><div class="performance-grid"><label class="control-group"><span>ベロシティ <strong id="velocityValue">100</strong></span><input id="velocityInput" type="range" min="20" max="127" value="100"></label><label class="control-group"><span>Humanize <strong id="humanizeValue">0%</strong></span><input id="humanizeInput" type="range" min="0" max="100" value="0"></label><label class="select-control"><span>ドラムキット</span><select id="drumKitSelect"><option value="studio">Studio</option><option value="electronic">Electronic</option><option value="vintage">Vintage</option><option value="lofi">Lo-Fi</option></select></label></div></div></details>
 
       <div class="hidden-support"><select id="categorySelect"><option value="all">すべて</option></select><select id="presetSelect"></select><input id="presetSearch" value=""><button id="favoriteButton"></button><span id="rhythmLibrary"></span><div id="presetCards"></div><span id="featureText"></span><span id="roleText"></span><span id="practiceText"></span><button id="helpButton"></button></div>
     </main>
   </div>
-  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close">×</button><h2>使い方</h2><ol><li>ジャンルを選ぶ</li><li>候補からおかずを選ぶ</li><li>試聴または配置を見る</li><li>読み込んだ配置を編集する</li></ol></div></dialog>
+  <dialog id="helpDialog"><div class="dialog-content"><button id="closeHelpButton" class="dialog-close">×</button><h2>使い方</h2><ol><li>ジャンルを選ぶ</li><li>候補からフィルインを選ぶ</li><li>試聴または配置を見る</li><li>読み込んだ配置を編集する</li></ol></div></dialog>
   <script src="app.js?v=20"></script><script src="more-presets.js?v=20"></script><script src="expressive-presets.js?v=20"></script><script src="performance.js?v=20"></script><script src="drum-fills.js?v=20"></script><script src="more-fills.js?v=20"></script><script src="fill-picker.js?v=20"></script>
 </body>
 </html>
