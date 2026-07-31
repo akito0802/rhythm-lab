@@ -17,7 +17,7 @@ function ensureFillViewDialog(){
  document.head.append(style);
  const dialog=document.createElement('dialog');
  dialog.id='fillViewDialog';dialog.className='fill-view-dialog';
- dialog.innerHTML=`<div class="fill-view-content"><button id="closeFillViewButton" class="dialog-close" type="button" aria-label="閉じる">×</button><p class="eyebrow">BEAT MAP</p><h2 id="fillViewTitle">おかずの配置</h2><p id="fillViewDescription" class="fill-view-description"></p><div class="fill-view-legend"><span><i class="legend-on"></i>鳴る</span><span><i></i>休み</span></div><div id="fillViewGrid" class="fill-view-grid"></div></div>`;
+ dialog.innerHTML=`<div class="fill-view-content"><button id="closeFillViewButton" class="dialog-close" type="button" aria-label="閉じる">×</button><p class="eyebrow">BEAT MAP</p><h2 id="fillViewTitle">フィルインの配置</h2><p id="fillViewDescription" class="fill-view-description"></p><div class="fill-view-legend"><span><i class="legend-on"></i>鳴る</span><span><i></i>休み</span></div><div id="fillViewGrid" class="fill-view-grid"></div></div>`;
  document.body.append(dialog);
  dialog.querySelector('#closeFillViewButton').addEventListener('click',()=>dialog.close());
  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
@@ -45,13 +45,13 @@ function renderFillPicker(){
  if(!drumFills[selectedFillId])selectedFillId=Object.keys(drumFills)[0];
  panel.innerHTML=`
   <div class="fill-header">
-   <div><span class="section-kicker">DRUM FILL SELECT</span><h2>ジャンルからおかずを選ぶ</h2><p>ビートと同じ流れで、ジャンル→おかずの順に選べるよ。</p></div>
+   <div><span class="section-kicker">DRUM FILL SELECT</span><h2>ジャンルからフィルインを選ぶ</h2><p>ビートと同じ流れで、ジャンル→フィルインの順に選べるよ。</p></div>
    <span id="fillCount">全${Object.keys(drumFills).length}種類</span>
   </div>
   <div class="two-stage-picker fill-two-stage-picker">
    <label class="picker-field"><span class="picker-number">1</span><span class="picker-label">ジャンル</span><select id="fillCategorySelect"><option value="all">すべて</option>${categories.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></label>
    <span class="picker-arrow">→</span>
-   <label class="picker-field rhythm-field"><span class="picker-number">2</span><span class="picker-label">おかず</span><select id="fillPresetSelect"></select></label>
+   <label class="picker-field rhythm-field"><span class="picker-number">2</span><span class="picker-label">フィルイン</span><select id="fillPresetSelect"></select></label>
   </div>
   <article class="fill-selected-card">
    <div id="fillSelectedTags" class="fill-tags"></div>
