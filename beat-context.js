@@ -82,6 +82,12 @@ function installExtraInstruments(){
  document.body.append(script);
 }
 
+function installTrackMixer(){
+ if(document.querySelector('script[data-track-mixer]'))return;
+ const css=document.createElement('link');css.rel='stylesheet';css.href='track-mixer.css?v=1';document.head.append(css);
+ const script=document.createElement('script');script.src='track-mixer.js?v=1';script.dataset.trackMixer='true';document.body.append(script);
+}
+
 unifyFillInWording();
 setTimeout(()=>{
  refreshBeatSelectors();
@@ -90,4 +96,5 @@ setTimeout(()=>{
  installNotationAndRecordedSamples();
  installExtraInstruments();
  installRideTones().then(installJazzSwingEngine);
+ installTrackMixer();
 },0);
