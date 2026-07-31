@@ -32,6 +32,14 @@ function refreshBeatSelectors(){
  }
 }
 
+function unifyFillInWording(){
+ document.querySelectorAll('h1,h2,h3,p,li,span,strong,button,a').forEach(element=>{
+  element.childNodes.forEach(node=>{
+   if(node.nodeType===Node.TEXT_NODE&&node.nodeValue?.includes('おかず'))node.nodeValue=node.nodeValue.replaceAll('おかず','フィルイン');
+  });
+ });
+}
+
 const beatSelect=document.querySelector('#presetSelect');
 const categorySelect=document.querySelector('#categorySelect');
 
@@ -59,7 +67,9 @@ extraPresetScript.onload=()=>{
 };
 document.body.append(extraPresetScript);
 
+unifyFillInWording();
 setTimeout(()=>{
  refreshBeatSelectors();
  syncSelectedBeat();
+ unifyFillInWording();
 },0);
