@@ -13,29 +13,36 @@
     {key:'world', category:'ワールド', label:'ワールド', bpm:108, difficulty:'中級', lesson:'異なる周期の打楽器を重ね、ポリリズム感を養う。', role:'複数のパーカッションが独立した反復を担当する。', base:{kick:[0,8],conga:[0,3,6,10,13],claves:[1,5,9,14],shaker:[0,2,4,6,8,10,12,14]}},
     {key:'metal', category:'メタル', label:'メタル', bpm:168, difficulty:'上級', lesson:'高速でも拍の頭とスネア位置を見失わないようにする。', role:'連続キックが推進力、チャイナやクラッシュが区切りを作る。', base:{kick:[0,2,4,6,8,10,12,14],snare:[4,12],closedHat:[0,2,4,6,8,10,12,14],china:[0]}},
     {key:'blues', category:'ブルース', label:'ブルース／シャッフル', bpm:108, difficulty:'中級', lesson:'跳ねる3連感とバックビートの関係を学ぶ。', role:'ハイハットのスウィング感が全体のノリを決める。', base:{kick:[0,8,11],snare:[4,12],closedHat:[0,2,4,6,8,10,12,14]}},
-    {key:'odd', category:'変拍子', label:'変拍子', bpm:116, difficulty:'上級', lesson:'アクセントのまとまりを数え、拍子の区切りを体で覚える。', role:'キックとタムのアクセントが拍子のグループを示す。', base:{kick:[0,6,10],snare:[4,12],highTom:[2,8],floorTom:[14],closedHat:[0,2,4,6,8,10,12,14]}}
+    {key:'odd', category:'変拍子', label:'変拍子', bpm:116, difficulty:'上級', lesson:'アクセントのまとまりを数え、拍子の区切りを体で覚える。', role:'キックとタムのアクセントが拍子のグループを示す。', base:{kick:[0,6,10],snare:[4,12],highTom:[2,8],floorTom:[14],closedHat:[0,2,4,6,8,10,12,14]}},
+    {key:'reggae', category:'レゲエ', label:'レゲエ', bpm:78, difficulty:'中級', lesson:'裏拍のハイハットとワンドロップの重心を学ぶ。', role:'3拍目のキックとスネア、裏拍のハットが独特の浮遊感を作る。', base:{kick:[8],snare:[8],closedHat:[2,6,10,14],rim:[4,12]}},
+    {key:'soul', category:'ソウル', label:'ソウル', bpm:96, difficulty:'中級', lesson:'歌を支えるバックビートと控えめな装飾を学ぶ。', role:'スネアの粘りとキックの間が温かいグルーヴを作る。', base:{kick:[0,7,10],snare:[4,12],closedHat:[0,2,4,6,8,10,12,14],tambourine:[4,12]}},
+    {key:'disco', category:'ディスコ', label:'ディスコ', bpm:122, difficulty:'初級', lesson:'4つ打ちと裏拍オープンハットの関係を学ぶ。', role:'一定のキックと裏拍のハットがダンスの推進力を作る。', base:{kick:[0,4,8,12],clap:[4,12],closedHat:[0,2,4,6,8,10,12,14],openHat:[2,6,10,14]}},
+    {key:'house', category:'ハウス', label:'ハウス', bpm:124, difficulty:'初級', lesson:'反復の中で小さな変化を作る方法を学ぶ。', role:'4つ打ちのキックを軸にクラップとハットが層を作る。', base:{kick:[0,4,8,12],clap:[4,12],closedHat:[2,6,10,14],shaker:[1,3,5,7,9,11,13,15]}},
+    {key:'techno', category:'テクノ', label:'テクノ', bpm:132, difficulty:'中級', lesson:'機械的な反復とアクセント移動による展開を学ぶ。', role:'キックが脈を保ち、ハットとパーカッションが質感を変える。', base:{kick:[0,4,8,12],clap:[4,12],closedHat:[2,6,10,14],rim:[3,11],shaker:[1,5,9,13]}},
+    {key:'dnb', category:'ドラムンベース', label:'ドラムンベース', bpm:174, difficulty:'上級', lesson:'高速テンポでブレイクビーツの切れ目を捉える。', role:'細かいキックとスネアの交差が疾走感を作る。', base:{kick:[0,3,10],snare:[4,12],closedHat:[0,2,4,6,8,10,12,14],ride:[1,5,9,13]}},
+    {key:'afrobeat', category:'アフロビート', label:'アフロビート', bpm:112, difficulty:'中級', lesson:'複数の反復パターンが重なる立体的なグルーヴを学ぶ。', role:'キック、コンガ、シェイカーがそれぞれ異なる周期を担当する。', base:{kick:[0,6,10],snare:[4,12],conga:[1,3,7,9,13,15],shaker:[0,2,4,6,8,10,12,14],claves:[0,5,8,13]}},
+    {key:'bossa', category:'ボサノヴァ', label:'ボサノヴァ', bpm:132, difficulty:'中級', lesson:'静かな音量でシンコペーションを保つ練習をする。', role:'クロススティックとシェイカーが柔らかな流れを作る。', base:{kick:[0,6,8,14],side:[4,12],shaker:[0,2,4,6,8,10,12,14],claves:[0,5,8,13]}}
   ];
 
   const variantNames=['ベーシック','キック変化','シンコペーション','オープンハット','ゴースト風','タムアクセント','クラッシュ導入','ブレイク型','前ノリ','後ノリ','ハーフタイム','ダブルタイム','ミニマル','高密度','展開前','上級チャレンジ'];
   const shift=(arr,n)=>[...new Set(arr.map(v=>(v+n+16)%16))].sort((a,b)=>a-b);
   const copyPattern=p=>Object.fromEntries(Object.entries(p).map(([k,v])=>[k,[...v]]));
 
-  families.forEach((family, familyIndex) => {
+  families.forEach((family) => {
     variantNames.forEach((variant, i) => {
       const pattern=copyPattern(family.base);
-      const amount=(i%4);
       if(i===1 && pattern.kick) pattern.kick=[...new Set([...pattern.kick,3,14])].sort((a,b)=>a-b);
       if(i===2 && pattern.kick) pattern.kick=shift(pattern.kick,1);
-      if(i===3){pattern.openHat=[...new Set([...(pattern.openHat||[]),6,14])];}
-      if(i===4){pattern.rim=[...new Set([...(pattern.rim||[]),3,11,15])];}
+      if(i===3) pattern.openHat=[...new Set([...(pattern.openHat||[]),6,14])];
+      if(i===4) pattern.rim=[...new Set([...(pattern.rim||[]),3,11,15])];
       if(i===5){pattern.highTom=[2,6];pattern.floorTom=[10,14];}
-      if(i===6){pattern.crash=[0,12];}
+      if(i===6) pattern.crash=[0,12];
       if(i===7){Object.keys(pattern).forEach(k=>pattern[k]=pattern[k].filter(step=>step<8));pattern.crash=[8];}
       if(i===8 && pattern.kick) pattern.kick=shift(pattern.kick,15);
       if(i===9 && pattern.snare) pattern.snare=shift(pattern.snare,1);
-      if(i===10){pattern.snare=[8]; if(pattern.kick) pattern.kick=[0,6,10,14];}
-      if(i===11){pattern.closedHat=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];}
-      if(i===12){Object.keys(pattern).forEach(k=>pattern[k]=pattern[k].filter((_,idx)=>idx%2===0));}
+      if(i===10){pattern.snare=[8];if(pattern.kick)pattern.kick=[0,6,10,14];}
+      if(i===11) pattern.closedHat=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+      if(i===12) Object.keys(pattern).forEach(k=>pattern[k]=pattern[k].filter((_,idx)=>idx%2===0));
       if(i===13){pattern.closedHat=[0,1,2,3,4,6,7,8,9,10,11,12,14,15];pattern.shaker=[1,3,5,7,9,11,13,15];}
       if(i===14){pattern.crash=[0];pattern.highTom=[10,12];pattern.floorTom=[14,15];}
       if(i===15){pattern.kick=[0,3,6,7,10,13,15];pattern.snare=[4,11,12];pattern.closedHat=[0,1,2,4,6,7,8,10,12,13,14,15];pattern.openHat=[7,15];}
