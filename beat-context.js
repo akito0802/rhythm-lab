@@ -1,7 +1,7 @@
 (()=>{
  const css=document.createElement('link');
  css.rel='stylesheet';
- css.href='track-mixer.css?v=2';
+ css.href='track-mixer.css?v=3';
  document.head.append(css);
  const script=document.createElement('script');
  script.src='track-mixer.js?v=2';
@@ -96,7 +96,7 @@ function installExtraInstruments(){
 
 function installTrackMixer(){
  if(document.querySelector('script[data-track-mixer]'))return;
- const css=document.createElement('link');css.rel='stylesheet';css.href='track-mixer.css?v=2';document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href='track-mixer.css?v=3';document.head.append(css);
  const script=document.createElement('script');script.src='track-mixer.js?v=2';script.dataset.trackMixer='true';document.body.append(script);
 }
 
