@@ -15,3 +15,4 @@ function refreshMixerBuses(){if(!state.audioContext)return;tracks.forEach(t=>get
 function saveTrackMixer(){const plain={};Object.entries(trackMixerState).forEach(([id,m])=>plain[id]={volume:m.volume,pan:m.pan,mute:m.mute,solo:m.solo,pitch:m.pitch,decay:m.decay});localStorage.setItem('rhythmLabTrackMixer',JSON.stringify(plain))}
 function restoreTrackMixer(){try{const saved=JSON.parse(localStorage.getItem('rhythmLabTrackMixer'));if(saved)Object.entries(saved).forEach(([id,m])=>trackMixerState[id]={...defaultTrackMixer(),...m})}catch{}}
 restoreTrackMixer();buildTrackMixer();
+(()=>{if(document.querySelector('script[data-rhythm-suite]'))return;const css=document.createElement('link');css.rel='stylesheet';css.href='rhythm-tools.css?v=1';document.head.append(css);const script=document.createElement('script');script.src='rhythm-suite-v2.js?v=1';script.dataset.rhythmSuite='true';document.body.append(script)})();
