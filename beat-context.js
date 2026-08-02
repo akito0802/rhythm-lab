@@ -4,7 +4,7 @@
  css.href='track-mixer.css?v=3';
  document.head.append(css);
  const script=document.createElement('script');
- script.src='track-mixer.js?v=2';
+ script.src='track-mixer.js?v=3';
  script.dataset.trackMixer='true';
  script.onerror=()=>console.error('Track mixer failed to load');
  document.body.append(script);
@@ -97,7 +97,7 @@ function installExtraInstruments(){
 function installTrackMixer(){
  if(document.querySelector('script[data-track-mixer]'))return;
  const css=document.createElement('link');css.rel='stylesheet';css.href='track-mixer.css?v=3';document.head.append(css);
- const script=document.createElement('script');script.src='track-mixer.js?v=2';script.dataset.trackMixer='true';document.body.append(script);
+ const script=document.createElement('script');script.src='track-mixer.js?v=3';script.dataset.trackMixer='true';document.body.append(script);
 }
 
 unifyFillInWording();
